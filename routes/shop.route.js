@@ -1,9 +1,10 @@
 const { Router } = require('express');
+const { join } = require('node:path');
 
 const shopRoute = Router();
 
 shopRoute.get('/', (req, res, next) => {
-  res.send('<h1>hello from express</h1>');
+  res.sendFile(join(__dirname, '..', 'views', 'shop.html'));
 });
 
 module.exports = shopRoute;
