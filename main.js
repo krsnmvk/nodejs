@@ -1,3 +1,4 @@
+const { writeFileSync } = require('node:fs');
 const http = require('node:http');
 
 const server = http.createServer((req, res) => {
@@ -5,9 +6,16 @@ const server = http.createServer((req, res) => {
     res.write('<html>');
     res.write('<head><title>Enter Message</title></head>');
     res.write(
-      '<body><form action="/message" method="pot"><input type="text" name="message"><button type="submit">Send</button></form></body>'
+      '<body><form action="/message" method="post"><input type="text" name="message"><button type="submit">Send</button></form></body>'
     );
     res.write('</html>');
+    return res.end();
+  }
+
+  if (req.url === '/message' && req.method === 'POST') {
+    writeFileSync('message.txt', 'dummy');
+    res.statusCode = 302;
+    res.setHeader('Location', '/');
     return res.end();
   }
 
