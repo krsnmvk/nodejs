@@ -1,8 +1,7 @@
-const http = require('node:http');
-const requestHandler = require('./routes');
+const express = require('express');
 
-const server = http.createServer(requestHandler);
+const app = express();
 
-server.listen(8080, () => {
+app.listen(8080, () => {
   console.log('Server running on: http://localhost:8080');
 });
