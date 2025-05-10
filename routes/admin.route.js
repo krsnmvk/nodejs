@@ -4,11 +4,11 @@ const adminRoute = Router();
 
 adminRoute.get('/add-product', (req, res, next) => {
   res.send(
-    '<form action="/product" method="post"><input type="text" name="title"><button type="submit">Add Product</button></form>'
+    '<form action="/admin/add-product" method="post"><input type="text" name="title"><button type="submit">Add Product</button></form>'
   );
 });
 
-adminRoute.post('/product', (req, res, next) => {
+adminRoute.post('/add-product', (req, res, next) => {
   console.log(req.body);
 
   res.redirect('/');
