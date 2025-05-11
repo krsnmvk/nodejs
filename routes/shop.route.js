@@ -1,10 +1,14 @@
-const { Router } = require('express');
-const { join } = require('node:path');
+import { Router } from 'express';
+import { join } from 'node:path';
+import { products } from './admin.route.js';
+import { getDirname } from '../utils/path.js';
 
 const shopRoute = Router();
 
 shopRoute.get('/', (req, res, next) => {
-  res.sendFile(join(__dirname, '..', 'views', 'shop.html'));
+  console.log(products);
+
+  res.sendFile(join(getDirname(import.meta.url), '..', 'views', 'shop.html'));
 });
 
-module.exports = shopRoute;
+export default shopRoute;
