@@ -1,8 +1,21 @@
-const http = require('node:http');
-const requestHandler = require('./routes');
+const express = require('express');
+const bodyParser = require('body-parser');
+const adminRoute = require('./routes/admin.route');
+const shopRoute = require('./routes/shop.route');
+const { join } = require('node:path');
 
-const server = http.createServer(requestHandler);
+const app = express();
 
-server.listen(8080, () => {
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(join(__dirname, 'src')));
+
+app.use('/admin', adminRoute);
+app.use(shopRoute);
+
+app.use((req, res, next) => {
+  res.status(404).sendFile(join(__dirname, 'views', '404.html'));
+});
+
+app.listen(8080, () => {
   console.log('Server running on: http://localhost:8080');
 });
