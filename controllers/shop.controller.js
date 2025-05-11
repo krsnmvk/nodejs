@@ -1,7 +1,7 @@
 import { Product } from '../models/product.model.js';
 
 export function getIndex(req, res, next) {
-  Product.getAll().then((products) => {
+  Product.getAll((products) => {
     return res.render('shop/index', {
       title: 'Shop',
       href: '/',
@@ -11,7 +11,7 @@ export function getIndex(req, res, next) {
 }
 
 export function getProducts(req, res, next) {
-  Product.getAll().then((products) => {
+  Product.getAll((products) => {
     return res.render('shop/product-list', {
       title: 'Products',
       href: '/products',
@@ -24,6 +24,10 @@ export function getProductDetail(req, res, next) {
   const { id } = req.params;
 
   console.log(id);
+
+  Product.getById(id, (product) => {
+    console.log(product);
+  });
 
   res.redirect('/');
 }

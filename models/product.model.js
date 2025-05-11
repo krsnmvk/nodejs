@@ -1,6 +1,6 @@
-import { readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { getDirname } from '../utils/path.js';
+import { readFile, writeFile } from 'node:fs';
 
 const dataPath = join(
   getDirname(import.meta.url),
@@ -8,6 +8,16 @@ const dataPath = join(
   'data',
   'product.json'
 );
+
+const getProductsFromFile = (cb) => {
+  readFile(dataPath, (err, fileContent) => {
+    if (err) {
+      cb([]);
+    } else {
+      cb(JSON.parse(fileContent));
+    }
+  });
+};
 
 export class Product {
   constructor(title, image, price, description) {
@@ -17,32 +27,26 @@ export class Product {
     this.description = description;
   }
 
-  async save() {
-    let products = [];
-
+  save() {
     this.id = Math.random().toString();
 
-    try {
-      const file = await readFile(dataPath, 'utf8');
-      products = JSON.parse(file);
-    } catch (err) {
-      if (err.code !== 'ENOENT') {
-        throw err;
-      }
-    }
-
-    products.push(this);
-
-    await writeFile(dataPath, JSON.stringify(products, null, 2));
+    getProductsFromFile((products) => {
+      products.push(this);
+      writeFile(dataPath, JSON.stringify(products), (err) => {
+        console.log(err);
+      });
+    });
   }
 
-  static async getAll() {
-    try {
-      const file = await readFile(dataPath, 'utf8');
-      return JSON.parse(file);
-    } catch (err) {
-      if (err.code === 'ENOENT') return [];
-      throw err;
-    }
+  static getAll(cb) {
+    getProductsFromFile(cb);
+  }
+
+  static getById(id, cb) {
+    getProductsFromFile((products) => {
+      const product = products.find((p) => p.id === id);
+
+      cb(product);
+    });
   }
 }

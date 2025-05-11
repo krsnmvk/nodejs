@@ -18,7 +18,7 @@ export function postAddProduct(req, res, next) {
 }
 
 export function getAdminProducts(req, res, next) {
-  Product.getAll().then((products) => {
+  Product.getAll((products) => {
     return res.render('admin/products', {
       title: 'admin Products',
       href: '/admin/products',

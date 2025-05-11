@@ -12,5 +12,12 @@
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlpF6mjEUTbjkTW0pSqETvs_wJHLODuNzZ2JWjzu0lLxFqHB4GE3xFBek&s=10",
     "price": "56",
     "description": "buku yang luar biasa hebat"
+  },
+  {
+    "title": "Teko Plastik",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGOT5mVO7gH2IobHlGlsJMLAvitF4ZOE6jkTasuYUMvkY_b5UzNUVfDrM&s=10",
+    "price": "4",
+    "description": "teko murah meriah",
+    "id": "0.7874598827274563"
   }
 ]
