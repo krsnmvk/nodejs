@@ -8,7 +8,9 @@ export function getAddProduct(req, res, next) {
 }
 
 export function postAddProduct(req, res, next) {
-  const products = new Product(req.body.title);
+  const { title, image, price, description } = req.body;
+
+  const products = new Product(title, image, price, description);
 
   products.save();
 

@@ -3,7 +3,7 @@ import {
   getAddProduct,
   getAdminProducts,
   postAddProduct,
-} from '../controllers/product.controller.js';
+} from '../controllers/admin.controller.js';
 
 const adminRoute = Router();
 
