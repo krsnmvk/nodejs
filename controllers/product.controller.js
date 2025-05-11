@@ -16,7 +16,7 @@ export function postAddProduct(req, res, next) {
 }
 
 export function getProducts(req, res, next) {
-  const products = Product.getAll();
-
-  res.render('shop', { title: 'Shop', href: '/', products: products });
+  Product.getAll().then((products) => {
+    return res.render('shop', { title: 'Shop', href: '/', products: products });
+  });
 }
