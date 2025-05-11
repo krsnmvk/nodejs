@@ -88,6 +88,10 @@ form {
   padding: 0;
 }
 
+.centered {
+  text-align: center;
+}
+
 .mobile-nav__item a {
   text-decoration: none;
   color: black;

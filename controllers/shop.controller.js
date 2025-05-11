@@ -23,13 +23,13 @@ export function getProducts(req, res, next) {
 export function getProductDetail(req, res, next) {
   const { id } = req.params;
 
-  console.log(id);
-
   Product.getById(id, (product) => {
-    console.log(product);
+    return res.render('shop/product-detail', {
+      product: product,
+      title: product.title,
+      href: '/products',
+    });
   });
-
-  res.redirect('/');
 }
 
 export function getCart(req, res, next) {
