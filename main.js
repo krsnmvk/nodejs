@@ -7,6 +7,7 @@ const { join } = require('node:path');
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(join(__dirname, 'src')));
 
 app.use('/admin', adminRoute);
 app.use(shopRoute);

@@ -3,8 +3,6 @@ const { join } = require('node:path');
 
 const adminRoute = Router();
 
-console.log(join(__dirname));
-
 adminRoute.get('/add-product', (req, res, next) => {
   res.sendFile(join(__dirname, '..', 'views', 'add-product.html'));
 });
