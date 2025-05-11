@@ -20,6 +20,8 @@ export class Product {
   async save() {
     let products = [];
 
+    this.id = Math.random().toString();
+
     try {
       const file = await readFile(dataPath, 'utf8');
       products = JSON.parse(file);

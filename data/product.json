@@ -1,11 +1,13 @@
 [
   {
+    "id": "0.345",
     "title": "First Book",
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5syZ5R0m9dRUBBY3SSaeHzADEDbk1Nxl60Oc6zJRttppHyEKKTj_BKzY&s=10",
     "price": "23",
     "description": "A nice book!"
   },
   {
+    "id": "12345",
     "title": "Second Book",
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlpF6mjEUTbjkTW0pSqETvs_wJHLODuNzZ2JWjzu0lLxFqHB4GE3xFBek&s=10",
     "price": "56",
