@@ -1,20 +1,13 @@
 import { Router } from 'express';
-
-export const products = [];
+import {
+  getAddProduct,
+  postAddProduct,
+} from '../controllers/product.controller.js';
 
 const adminRoute = Router();
 
-adminRoute.get('/add-product', (req, res, next) => {
-  res.render('add-product', {
-    title: 'Add Product',
-    href: '/admin/add-product',
-  });
-});
+adminRoute.get('/add-product', getAddProduct);
 
-adminRoute.post('/add-product', (req, res, next) => {
-  products.push({ title: req.body.title });
-
-  res.redirect('/');
-});
+adminRoute.post('/add-product', postAddProduct);
 
 export default adminRoute;
