@@ -1,15 +1,14 @@
 import { Router } from 'express';
-import { join } from 'node:path';
-import { getDirname } from '../utils/path.js';
 
 export const products = [];
 
 const adminRoute = Router();
 
 adminRoute.get('/add-product', (req, res, next) => {
-  res.sendFile(
-    join(getDirname(import.meta.url), '..', 'views', 'add-product.html')
-  );
+  res.render('add-product', {
+    title: 'Add Product',
+    href: '/admin/add-product',
+  });
 });
 
 adminRoute.post('/add-product', (req, res, next) => {

@@ -10,13 +10,14 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(join(getDirname(import.meta.url), 'src')));
 
+app.set('view engine', 'ejs');
+app.set('views', join(getDirname(import.meta.url), 'views'));
+
 app.use('/admin', adminRoute);
 app.use(shopRoute);
 
 app.use((req, res, next) => {
-  res
-    .status(404)
-    .sendFile(join(getDirname(import.meta.url), 'views', '404.html'));
+  res.status(404).render('404', { title: 'Page Not Found', href: '/404' });
 });
 
 app.listen(8080, () => {
