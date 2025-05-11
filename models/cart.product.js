@@ -57,4 +57,16 @@ export class Cart {
       });
     });
   }
+
+  static getCart(cb) {
+    readFile(dataPath, (err, file) => {
+      const cart = JSON.parse(file);
+
+      if (err) {
+        cb(null);
+      } else {
+        cb(cart);
+      }
+    });
+  }
 }
