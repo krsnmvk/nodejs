@@ -1,7 +1,7 @@
 import { Product } from '../models/product.model.js';
 
 export function getAddProduct(req, res, next) {
-  res.render('admin/add-product', {
+  res.render('admin/edit-product', {
     title: 'Add Product',
     href: '/admin/add-product',
   });
@@ -14,7 +14,7 @@ export function postAddProduct(req, res, next) {
 
   products.save();
 
-  res.redirect('/');
+  return res.redirect('/');
 }
 
 export function getAdminProducts(req, res, next) {
@@ -24,5 +24,17 @@ export function getAdminProducts(req, res, next) {
       href: '/admin/products',
       products: products,
     });
+  });
+}
+
+export function getEditProduct(req, res, next) {
+  const { edit } = req.query;
+
+  if (!edit) return res.redirect('/');
+
+  return res.render('admin/edit-product', {
+    title: 'Add Product',
+    href: '/admin/add-product',
+    edit: edit,
   });
 }
