@@ -1,3 +1,4 @@
+import { Cart } from '../models/cart.product.js';
 import { Product } from '../models/product.model.js';
 
 export function getIndex(req, res, next) {
@@ -39,7 +40,9 @@ export function getCart(req, res, next) {
 export function postCart(req, res, next) {
   const { id } = req.body;
 
-  console.log(id);
+  Product.getById(id, (product) => {
+    Cart.addProduct(id, product.price);
+  });
 
   return res.redirect('/cart');
 }
