@@ -1,6 +1,7 @@
-import { readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { getDirname } from '../utils/path.js';
+import { readFile, writeFile } from 'node:fs';
+import { Cart } from './cart.product.js';
 
 const dataPath = join(
   getDirname(import.meta.url),
@@ -9,38 +10,73 @@ const dataPath = join(
   'product.json'
 );
 
+const getProductsFromFile = (cb) => {
+  readFile(dataPath, (err, fileContent) => {
+    if (err) {
+      cb([]);
+    } else {
+      cb(JSON.parse(fileContent));
+    }
+  });
+};
+
 export class Product {
-  constructor(title, image, price, description) {
+  constructor(id, title, image, price, description) {
+    this.id = id;
     this.title = title;
     this.image = image;
     this.price = price;
     this.description = description;
   }
 
-  async save() {
-    let products = [];
+  save() {
+    getProductsFromFile((products) => {
+      if (this.id) {
+        const existingProductIndex = products.findIndex(
+          (p) => p.id === this.id
+        );
+        const updatedProduct = [...products];
 
-    try {
-      const file = await readFile(dataPath, 'utf8');
-      products = JSON.parse(file);
-    } catch (err) {
-      if (err.code !== 'ENOENT') {
-        throw err;
+        updatedProduct[existingProductIndex] = this;
+
+        writeFile(dataPath, JSON.stringify(updatedProduct), (err) => {
+          console.log(err);
+        });
+      } else {
+        this.id = Math.random().toString();
+
+        products.push(this);
+
+        writeFile(dataPath, JSON.stringify(products), (err) => {
+          console.log(err);
+        });
       }
-    }
-
-    products.push(this);
-
-    await writeFile(dataPath, JSON.stringify(products, null, 2));
+    });
   }
 
-  static async getAll() {
-    try {
-      const file = await readFile(dataPath, 'utf8');
-      return JSON.parse(file);
-    } catch (err) {
-      if (err.code === 'ENOENT') return [];
-      throw err;
-    }
+  static getAll(cb) {
+    getProductsFromFile(cb);
+  }
+
+  static getById(id, cb) {
+    getProductsFromFile((products) => {
+      const product = products.find((p) => p.id === id);
+
+      cb(product);
+    });
+  }
+
+  static deleteById(id) {
+    getProductsFromFile((products) => {
+      const product = products.find((prod) => prod.id === id);
+
+      const updatedProducts = products.filter((prod) => prod.id !== id);
+
+      writeFile(dataPath, JSON.stringify(updatedProducts), (err) => {
+        if (!err) {
+          Cart.deleteProduct(id, product.price);
+        }
+      });
+    });
   }
 }
