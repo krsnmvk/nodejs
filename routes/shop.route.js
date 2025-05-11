@@ -1,10 +1,10 @@
-const { Router } = require('express');
-const { join } = require('node:path');
+import { Router } from 'express';
+import { products } from './admin.route.js';
 
 const shopRoute = Router();
 
 shopRoute.get('/', (req, res, next) => {
-  res.sendFile(join(__dirname, '..', 'views', 'shop.html'));
+  res.render('shop', { title: 'Shop', href: '/', products: products });
 });
 
-module.exports = shopRoute;
+export default shopRoute;
