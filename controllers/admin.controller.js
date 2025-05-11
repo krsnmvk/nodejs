@@ -11,7 +11,7 @@ export function getAddProduct(req, res, next) {
 export function postAddProduct(req, res, next) {
   const { title, image, price, description } = req.body;
 
-  const products = new Product(title, image, price, description);
+  const products = new Product(null, title, image, price, description);
 
   products.save();
 
@@ -45,4 +45,14 @@ export function getEditProduct(req, res, next) {
       product: product,
     });
   });
+}
+
+export function postEditProduct(req, res, next) {
+  const { id, title, image, price, description } = req.body;
+
+  const updatedProduct = new Product(id, title, image, price, description);
+
+  updatedProduct.save();
+
+  return res.redirect('/admin/products');
 }
