@@ -36,6 +36,14 @@ export function getCart(req, res, next) {
   return res.render('shop/cart', { title: 'Your Cart', href: '/cart' });
 }
 
+export function postCart(req, res, next) {
+  const { id } = req.body;
+
+  console.log(id);
+
+  return res.redirect('/cart');
+}
+
 export function getOrders(req, res, next) {
   return res.render('shop/orders', { title: 'Your Orders', href: '/orders' });
 }

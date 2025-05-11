@@ -6,6 +6,7 @@ import {
   getOrders,
   getProducts,
   getProductDetail,
+  postCart,
 } from '../controllers/shop.controller.js';
 
 const shopRoute = Router();
@@ -17,6 +18,7 @@ shopRoute.get('/products', getProducts);
 shopRoute.get('/products/:id', getProductDetail);
 
 shopRoute.get('/cart', getCart);
+shopRoute.post('/cart', postCart);
 
 shopRoute.get('/orders', getOrders);
 
