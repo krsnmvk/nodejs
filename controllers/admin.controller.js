@@ -4,6 +4,7 @@ export function getAddProduct(req, res, next) {
   res.render('admin/edit-product', {
     title: 'Add Product',
     href: '/admin/add-product',
+    edit: false,
   });
 }
 
@@ -32,9 +33,16 @@ export function getEditProduct(req, res, next) {
 
   if (!edit) return res.redirect('/');
 
-  return res.render('admin/edit-product', {
-    title: 'Add Product',
-    href: '/admin/add-product',
-    edit: edit,
+  const { id } = req.params;
+
+  Product.getById(id, (product) => {
+    if (!product) return res.redirect('/');
+
+    return res.render('admin/edit-product', {
+      title: 'edit Product',
+      href: '/admin/add-product',
+      edit: edit,
+      product: product,
+    });
   });
 }
