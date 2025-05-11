@@ -56,3 +56,11 @@ export function postEditProduct(req, res, next) {
 
   return res.redirect('/admin/products');
 }
+
+export function postDeleteProduct(req, res, next) {
+  const { id } = req.body;
+
+  Product.deleteById(id);
+
+  return res.redirect('/admin/products');
+}

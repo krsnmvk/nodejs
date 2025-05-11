@@ -1,6 +1,7 @@
 import { join } from 'node:path';
 import { getDirname } from '../utils/path.js';
 import { readFile, writeFile } from 'node:fs';
+import { Cart } from './cart.product.js';
 
 const dataPath = join(
   getDirname(import.meta.url),
@@ -62,6 +63,20 @@ export class Product {
       const product = products.find((p) => p.id === id);
 
       cb(product);
+    });
+  }
+
+  static deleteById(id) {
+    getProductsFromFile((products) => {
+      const product = products.find((prod) => prod.id === id);
+
+      const updatedProducts = products.filter((prod) => prod.id !== id);
+
+      writeFile(dataPath, JSON.stringify(updatedProducts), (err) => {
+        if (!err) {
+          Cart.deleteProduct(id, product.price);
+        }
+      });
     });
   }
 }
