@@ -15,11 +15,11 @@ export function postAddProduct(req, res, next) {
   res.redirect('/');
 }
 
-export function getProducts(req, res, next) {
+export function getAdminProducts(req, res, next) {
   Product.getAll().then((products) => {
-    return res.render('shop/product-list', {
-      title: 'Shop',
-      href: '/',
+    return res.render('admin/products', {
+      title: 'admin Products',
+      href: '/admin/products',
       products: products,
     });
   });
