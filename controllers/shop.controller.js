@@ -20,6 +20,14 @@ export function getProducts(req, res, next) {
   });
 }
 
+export function getProductDetail(req, res, next) {
+  const { id } = req.params;
+
+  console.log(id);
+
+  res.redirect('/');
+}
+
 export function getCart(req, res, next) {
   return res.render('shop/cart', { title: 'Your Cart', href: '/cart' });
 }
