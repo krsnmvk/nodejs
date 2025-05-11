@@ -1,7 +1,7 @@
 import { Product } from '../models/product.model.js';
 
 export function getAddProduct(req, res, next) {
-  res.render('add-product', {
+  res.render('admin/add-product', {
     title: 'Add Product',
     href: '/admin/add-product',
   });
@@ -17,6 +17,10 @@ export function postAddProduct(req, res, next) {
 
 export function getProducts(req, res, next) {
   Product.getAll().then((products) => {
-    return res.render('shop', { title: 'Shop', href: '/', products: products });
+    return res.render('shop/product-list', {
+      title: 'Shop',
+      href: '/',
+      products: products,
+    });
   });
 }

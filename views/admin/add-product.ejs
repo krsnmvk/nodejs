@@ -1,10 +1,10 @@
-  <%- include('./layout/head.ejs') %>
+  <%- include('../layout/head.ejs') %>
   <link rel="stylesheet" href="/css/form.css">
   <link rel="stylesheet" href="/css/product.css">
   </head>
 
   <body>
-    <%- include('./layout/navigation.ejs') %>
+    <%- include('../layout/navigation.ejs') %>
 
     <main>
       <form class="product-form" action="/admin/add-product" method="POST">
@@ -16,4 +16,4 @@
         <button class="btn" type="submit">Add Product</button>
       </form>
     </main>
-    <%- include('./layout/end.ejs') %>
+    <%- include('../layout/end.ejs') %>
