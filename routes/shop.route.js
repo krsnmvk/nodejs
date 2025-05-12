@@ -1,13 +1,13 @@
 import { Router } from 'express';
 import {
-  getCart,
-  getCheckout,
+  // getCart,
+  // getCheckout,
   getIndex,
-  getOrders,
+  // getOrders,
   getProducts,
   getProductDetail,
-  postCart,
-  postCartDeleteProduct,
+  // postCart,
+  // postCartDeleteProduct,
 } from '../controllers/shop.controller.js';
 
 const shopRoute = Router();
@@ -18,13 +18,13 @@ shopRoute.get('/products', getProducts);
 
 shopRoute.get('/products/:id', getProductDetail);
 
-shopRoute.get('/cart', getCart);
-shopRoute.post('/cart', postCart);
+// shopRoute.get('/cart', getCart);
+// shopRoute.post('/cart', postCart);
 
-shopRoute.post('/cart-delete-item', postCartDeleteProduct);
+// shopRoute.post('/cart-delete-item', postCartDeleteProduct);
 
-shopRoute.get('/orders', getOrders);
+// shopRoute.get('/orders', getOrders);
 
-shopRoute.get('/checkout', getCheckout);
+// shopRoute.get('/checkout', getCheckout);
 
 export default shopRoute;

@@ -4,14 +4,28 @@ import adminRoute from './routes/admin.route.js';
 import shopRoute from './routes/shop.route.js';
 import { join } from 'node:path';
 import { getDirname } from './utils/path.js';
+import { dbConnection } from './db/db.js';
+import { UserModel } from './models/user.model.js';
 
 const app = express();
+
+dbConnection();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(join(getDirname(import.meta.url), 'src')));
 
 app.set('view engine', 'ejs');
 app.set('views', join(getDirname(import.meta.url), 'views'));
+
+app.use((req, res, next) => {
+  UserModel.findById('68215b1314a8beaae85d91e5')
+    .then((user) => {
+      req.user = user;
+
+      next();
+    })
+    .catch((err) => console.log(err));
+});
 
 app.use('/admin', adminRoute);
 app.use(shopRoute);

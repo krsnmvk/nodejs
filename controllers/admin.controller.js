@@ -1,7 +1,7 @@
-import { Product } from '../models/product.model.js';
+import { ProductModel } from '../models/product.model.js';
 
 export function getAddProduct(req, res, next) {
-  res.render('admin/edit-product', {
+  return res.render('admin/edit-product', {
     title: 'Add Product',
     href: '/admin/add-product',
     edit: false,
@@ -11,21 +11,24 @@ export function getAddProduct(req, res, next) {
 export function postAddProduct(req, res, next) {
   const { title, image, price, description } = req.body;
 
-  const products = new Product(null, title, image, price, description);
+  const products = new ProductModel({ title, image, price, description });
 
-  products.save();
-
-  return res.redirect('/');
+  products
+    .save()
+    .then(() => res.redirect('/'))
+    .catch((err) => console.log(err));
 }
 
 export function getAdminProducts(req, res, next) {
-  Product.getAll((products) => {
-    return res.render('admin/products', {
-      title: 'admin Products',
-      href: '/admin/products',
-      products: products,
-    });
-  });
+  ProductModel.find()
+    .then((products) => {
+      return res.render('admin/products', {
+        title: 'admin Products',
+        href: '/admin/products',
+        products: products,
+      });
+    })
+    .catch((err) => console.log(err));
 }
 
 export function getEditProduct(req, res, next) {
@@ -35,32 +38,40 @@ export function getEditProduct(req, res, next) {
 
   const { id } = req.params;
 
-  Product.getById(id, (product) => {
-    if (!product) return res.redirect('/');
+  ProductModel.findById(id)
+    .then((product) => {
+      if (!product) return res.redirect('/');
 
-    return res.render('admin/edit-product', {
-      title: 'edit Product',
-      href: '/admin/add-product',
-      edit: edit,
-      product: product,
-    });
-  });
+      return res.render('admin/edit-product', {
+        title: 'edit Product',
+        href: '/admin/add-product',
+        edit: edit,
+        product: product,
+      });
+    })
+    .catch((err) => console.log(err));
 }
 
 export function postEditProduct(req, res, next) {
   const { id, title, image, price, description } = req.body;
 
-  const updatedProduct = new Product(id, title, image, price, description);
+  ProductModel.findById(id)
+    .then((product) => {
+      product.title = title;
+      product.image = image;
+      product.price = price;
+      product.description = description;
 
-  updatedProduct.save();
-
-  return res.redirect('/admin/products');
+      return product.save();
+    })
+    .then(() => res.redirect('/admin/products'))
+    .catch((err) => console.log(err));
 }
 
 export function postDeleteProduct(req, res, next) {
   const { id } = req.body;
 
-  Product.deleteById(id);
-
-  return res.redirect('/admin/products');
+  ProductModel.findByIdAndDelete(id)
+    .then(() => res.redirect('/admin/products'))
+    .catch((err) => console.log(err));
 }
