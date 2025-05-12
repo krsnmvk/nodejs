@@ -1,7 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import adminRoute from './routes/admin.route.js';
-import shopRoute from './routes/shop.route.js';
+// import shopRoute from './routes/shop.route.js';
 import { join } from 'node:path';
 import { getDirname } from './utils/path.js';
 import { dbConnection } from './db/db.js';
@@ -17,7 +17,7 @@ app.set('view engine', 'ejs');
 app.set('views', join(getDirname(import.meta.url), 'views'));
 
 app.use('/admin', adminRoute);
-app.use(shopRoute);
+// app.use(shopRoute);
 
 app.use((req, res, next) => {
   res.status(404).render('404', { title: 'Page Not Found', href: '/404' });

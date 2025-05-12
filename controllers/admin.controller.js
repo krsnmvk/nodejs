@@ -1,4 +1,4 @@
-import { Product } from '../models/product.model.js';
+import { ProductModel } from '../models/product.model.js';
 
 export function getAddProduct(req, res, next) {
   res.render('admin/edit-product', {
@@ -11,56 +11,57 @@ export function getAddProduct(req, res, next) {
 export function postAddProduct(req, res, next) {
   const { title, image, price, description } = req.body;
 
-  const products = new Product(null, title, image, price, description);
+  const products = new ProductModel({ title, image, price, description });
 
-  products.save();
-
-  return res.redirect('/');
+  products
+    .save()
+    .then(() => res.redirect('/'))
+    .catch((err) => console.log(err));
 }
 
-export function getAdminProducts(req, res, next) {
-  Product.getAll((products) => {
-    return res.render('admin/products', {
-      title: 'admin Products',
-      href: '/admin/products',
-      products: products,
-    });
-  });
-}
+// export function getAdminProducts(req, res, next) {
+//   Product.getAll((products) => {
+//     return res.render('admin/products', {
+//       title: 'admin Products',
+//       href: '/admin/products',
+//       products: products,
+//     });
+//   });
+// }
 
-export function getEditProduct(req, res, next) {
-  const { edit } = req.query;
+// export function getEditProduct(req, res, next) {
+//   const { edit } = req.query;
 
-  if (!edit) return res.redirect('/');
+//   if (!edit) return res.redirect('/');
 
-  const { id } = req.params;
+//   const { id } = req.params;
 
-  Product.getById(id, (product) => {
-    if (!product) return res.redirect('/');
+//   Product.getById(id, (product) => {
+//     if (!product) return res.redirect('/');
 
-    return res.render('admin/edit-product', {
-      title: 'edit Product',
-      href: '/admin/add-product',
-      edit: edit,
-      product: product,
-    });
-  });
-}
+//     return res.render('admin/edit-product', {
+//       title: 'edit Product',
+//       href: '/admin/add-product',
+//       edit: edit,
+//       product: product,
+//     });
+//   });
+// }
 
-export function postEditProduct(req, res, next) {
-  const { id, title, image, price, description } = req.body;
+// export function postEditProduct(req, res, next) {
+//   const { id, title, image, price, description } = req.body;
 
-  const updatedProduct = new Product(id, title, image, price, description);
+//   const updatedProduct = new Product(id, title, image, price, description);
 
-  updatedProduct.save();
+//   updatedProduct.save();
 
-  return res.redirect('/admin/products');
-}
+//   return res.redirect('/admin/products');
+// }
 
-export function postDeleteProduct(req, res, next) {
-  const { id } = req.body;
+// export function postDeleteProduct(req, res, next) {
+//   const { id } = req.body;
 
-  Product.deleteById(id);
+//   Product.deleteById(id);
 
-  return res.redirect('/admin/products');
-}
+//   return res.redirect('/admin/products');
+// }
