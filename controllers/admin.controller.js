@@ -1,7 +1,7 @@
 import { ProductModel } from '../models/product.model.js';
 
 export function getAddProduct(req, res, next) {
-  res.render('admin/edit-product', {
+  return res.render('admin/edit-product', {
     title: 'Add Product',
     href: '/admin/add-product',
     edit: false,

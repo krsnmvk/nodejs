@@ -1,25 +1,28 @@
-// import { Cart } from '../models/cart.product.js';
-// import { Product } from '../models/product.model.js';
+import { ProductModel } from '../models/product.model.js';
 
-// export function getIndex(req, res, next) {
-//   Product.getAll((products) => {
-//     return res.render('shop/index', {
-//       title: 'Shop',
-//       href: '/',
-//       products: products,
-//     });
-//   });
-// }
+export function getIndex(req, res, next) {
+  ProductModel.find()
+    .then((products) => {
+      return res.render('shop/index', {
+        title: 'Shop',
+        href: '/',
+        products: products,
+      });
+    })
+    .catch((err) => console.log(err));
+}
 
-// export function getProducts(req, res, next) {
-//   Product.getAll((products) => {
-//     return res.render('shop/product-list', {
-//       title: 'Products',
-//       href: '/products',
-//       products: products,
-//     });
-//   });
-// }
+export function getProducts(req, res, next) {
+  ProductModel.find()
+    .then((products) => {
+      return res.render('shop/product-list', {
+        title: 'Products',
+        href: '/products',
+        products: products,
+      });
+    })
+    .catch((err) => console.log(err));
+}
 
 // export function getProductDetail(req, res, next) {
 //   const { id } = req.params;

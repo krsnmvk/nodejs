@@ -1,20 +1,20 @@
 import { Router } from 'express';
 import {
-  getCart,
-  getCheckout,
+  // getCart,
+  // getCheckout,
   getIndex,
-  getOrders,
+  // getOrders,
   getProducts,
-  getProductDetail,
-  postCart,
-  postCartDeleteProduct,
+  // getProductDetail,
+  // postCart,
+  // postCartDeleteProduct,
 } from '../controllers/shop.controller.js';
 
 const shopRoute = Router();
 
-// shopRoute.get('/', getIndex);
+shopRoute.get('/', getIndex);
 
-// shopRoute.get('/products', getProducts);
+shopRoute.get('/products', getProducts);
 
 // shopRoute.get('/products/:id', getProductDetail);
 
