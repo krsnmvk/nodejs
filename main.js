@@ -4,8 +4,11 @@ import adminRoute from './routes/admin.route.js';
 import shopRoute from './routes/shop.route.js';
 import { join } from 'node:path';
 import { getDirname } from './utils/path.js';
+import { dbConnection } from './db/db.js';
 
 const app = express();
+
+dbConnection();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(join(getDirname(import.meta.url), 'src')));
