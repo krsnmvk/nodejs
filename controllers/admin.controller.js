@@ -27,7 +27,11 @@ export function postAddProduct(req, res, next) {
 
 export function getAdminProducts(req, res, next) {
   ProductModel.find()
+    // .populate('userId')
+    // .select('title price userId')
     .then((products) => {
+      console.log(products);
+
       return res.render('admin/products', {
         title: 'admin Products',
         href: '/admin/products',

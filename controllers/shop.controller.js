@@ -61,15 +61,14 @@ export function getProductDetail(req, res, next) {
 //   });
 // }
 
-// export function postCart(req, res, next) {
-//   const { id } = req.body;
+export function postCart(req, res, next) {
+  const { id } = req.body;
 
-//   Product.getById(id, (product) => {
-//     Cart.addProduct(id, product.price);
-//   });
-
-//   return res.redirect('/cart');
-// }
+  ProductModel.findById(id)
+    .then((product) => req.user.addToCart(product))
+    .then(() => res.redirect('/cart'))
+    .catch((err) => console.log(err));
+}
 
 // export function getOrders(req, res, next) {
 //   return res.render('shop/orders', { title: 'Your Orders', href: '/orders' });

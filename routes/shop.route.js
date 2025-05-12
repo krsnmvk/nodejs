@@ -6,7 +6,7 @@ import {
   // getOrders,
   getProducts,
   getProductDetail,
-  // postCart,
+  postCart,
   // postCartDeleteProduct,
 } from '../controllers/shop.controller.js';
 
@@ -19,7 +19,7 @@ shopRoute.get('/products', getProducts);
 shopRoute.get('/products/:id', getProductDetail);
 
 // shopRoute.get('/cart', getCart);
-// shopRoute.post('/cart', postCart);
+shopRoute.post('/cart', postCart);
 
 // shopRoute.post('/cart-delete-item', postCartDeleteProduct);
 
