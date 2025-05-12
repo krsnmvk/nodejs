@@ -24,17 +24,19 @@ export function getProducts(req, res, next) {
     .catch((err) => console.log(err));
 }
 
-// export function getProductDetail(req, res, next) {
-//   const { id } = req.params;
+export function getProductDetail(req, res, next) {
+  const { id } = req.params;
 
-//   Product.getById(id, (product) => {
-//     return res.render('shop/product-detail', {
-//       product: product,
-//       title: product.title,
-//       href: '/products',
-//     });
-//   });
-// }
+  ProductModel.findById(id)
+    .then((product) => {
+      return res.render('shop/product-detail', {
+        product: product,
+        title: product.title,
+        href: '/products',
+      });
+    })
+    .catch((err) => console.log(err));
+}
 
 // export function getCart(req, res, next) {
 //   Cart.getCart((cart) => {
