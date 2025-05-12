@@ -5,7 +5,7 @@ import {
   getEditProduct,
   postAddProduct,
   postEditProduct,
-  // postDeleteProduct,
+  postDeleteProduct,
 } from '../controllers/admin.controller.js';
 
 const adminRoute = Router();
@@ -18,6 +18,6 @@ adminRoute.get('/products', getAdminProducts);
 adminRoute.get('/edit-product/:id', getEditProduct);
 adminRoute.post('/edit-product', postEditProduct);
 
-// adminRoute.post('/delete-product', postDeleteProduct);
+adminRoute.post('/delete-product', postDeleteProduct);
 
 export default adminRoute;
