@@ -80,6 +80,7 @@ export function postOrders(req, res, next) {
 
       return orders.save();
     })
+    .then(() => req.user.clearCart())
     .then(() =>
       res.render('shop/orders', { title: 'Your Orders', href: '/orders' })
     )
