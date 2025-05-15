@@ -7,7 +7,7 @@ import {
   getProducts,
   getProductDetail,
   postCart,
-  // postCartDeleteProduct,
+  postCartDeleteProduct,
 } from '../controllers/shop.controller.js';
 
 const shopRoute = Router();
@@ -21,7 +21,7 @@ shopRoute.get('/products/:id', getProductDetail);
 shopRoute.get('/cart', getCart);
 shopRoute.post('/cart', postCart);
 
-// shopRoute.post('/cart-delete-item', postCartDeleteProduct);
+shopRoute.post('/cart-delete-item', postCartDeleteProduct);
 
 // shopRoute.get('/orders', getOrders);
 

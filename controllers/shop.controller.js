@@ -42,7 +42,7 @@ export function getCart(req, res, next) {
   req.user.populate('cart.items.productId').then((user) => {
     const products = user.cart.items;
 
-    res.render('shop/cart', {
+    return res.render('shop/cart', {
       href: '/cart',
       title: 'Your Cart',
       products: products,
@@ -67,12 +67,11 @@ export function postCart(req, res, next) {
 //   return res.render('shop/checkout', { title: 'Checkout', href: '/checkout' });
 // }
 
-// export function postCartDeleteProduct(req, res, next) {
-//   const { id } = req.body;
+export function postCartDeleteProduct(req, res, next) {
+  const { id } = req.body;
 
-//   Product.getById(id, (product) => {
-//     Cart.deleteProduct(id, product.price);
-
-//     return res.redirect('/cart');
-//   });
-// }
+  req.user
+    .deleteFromCart(id)
+    .then(() => res.redirect('/cart'))
+    .catch((err) => console.log(err));
+}
