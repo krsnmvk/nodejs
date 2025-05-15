@@ -18,8 +18,13 @@ const productSchema = new Schema(
       required: true,
       type: String,
     },
+    userId: {
+      required: true,
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    },
   },
   { timestamps: true }
 );
 
-export const ProductModel = model('product', productSchema);
+export const ProductModel = model('Product', productSchema);

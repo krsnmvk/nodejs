@@ -18,7 +18,7 @@ app.set('view engine', 'ejs');
 app.set('views', join(getDirname(import.meta.url), 'views'));
 
 app.use((req, res, next) => {
-  UserModel.findById('68215b1314a8beaae85d91e5')
+  UserModel.findById('6825b14800b50a7d91206478')
     .then((user) => {
       req.user = user;
 
