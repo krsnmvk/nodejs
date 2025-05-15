@@ -21,10 +21,10 @@ const productSchema = new Schema(
     userId: {
       required: true,
       type: Schema.Types.ObjectId,
-      ref: 'user',
+      ref: 'User',
     },
   },
   { timestamps: true }
 );
 
-export const ProductModel = model('product', productSchema);
+export const ProductModel = model('Product', productSchema);

@@ -16,7 +16,7 @@ const userSchema = new Schema(
           productId: {
             required: true,
             type: Schema.Types.ObjectId,
-            ref: 'product',
+            ref: 'Product',
           },
           quantity: {
             required: true,
@@ -56,4 +56,4 @@ userSchema.methods.addToCart = function (product) {
   return this.save();
 };
 
-export const UserModel = model('user', userSchema);
+export const UserModel = model('User', userSchema);

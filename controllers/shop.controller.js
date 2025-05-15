@@ -38,28 +38,17 @@ export function getProductDetail(req, res, next) {
     .catch((err) => console.log(err));
 }
 
-// export function getCart(req, res, next) {
-//   Cart.getCart((cart) => {
-//     Product.getAll((products) => {
-//       const cartProducts = [];
+export function getCart(req, res, next) {
+  req.user.populate('cart.items.productId').then((user) => {
+    const products = user.cart.items;
 
-//       for (let product of products) {
-//         const cartProductData = cart.products.find(
-//           (prod) => prod.id === product.id
-//         );
-
-//         if (cartProductData) {
-//           cartProducts.push({ productData: product, qty: cartProductData.qty });
-//         }
-//       }
-//       return res.render('shop/cart', {
-//         href: '/cart',
-//         title: 'Your Cart',
-//         products: cartProducts,
-//       });
-//     });
-//   });
-// }
+    res.render('shop/cart', {
+      href: '/cart',
+      title: 'Your Cart',
+      products: products,
+    });
+  });
+}
 
 export function postCart(req, res, next) {
   const { id } = req.body;

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import {
-  // getCart,
+  getCart,
   // getCheckout,
   getIndex,
   // getOrders,
@@ -18,7 +18,7 @@ shopRoute.get('/products', getProducts);
 
 shopRoute.get('/products/:id', getProductDetail);
 
-// shopRoute.get('/cart', getCart);
+shopRoute.get('/cart', getCart);
 shopRoute.post('/cart', postCart);
 
 // shopRoute.post('/cart-delete-item', postCartDeleteProduct);
