@@ -1,5 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import authRoute from './routes/auth.route.js';
 import adminRoute from './routes/admin.route.js';
 import shopRoute from './routes/shop.route.js';
 import { join } from 'node:path';
@@ -27,6 +28,7 @@ app.use((req, res, next) => {
     .catch((err) => console.log(err));
 });
 
+app.use(authRoute);
 app.use('/admin', adminRoute);
 app.use(shopRoute);
 
