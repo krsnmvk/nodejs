@@ -3,7 +3,7 @@ import {
   getCart,
   // getCheckout,
   getIndex,
-  // getOrders,
+  getOrders,
   getProducts,
   getProductDetail,
   postCart,
@@ -24,7 +24,7 @@ shopRoute.post('/cart', postCart);
 
 shopRoute.post('/cart-delete-item', postCartDeleteProduct);
 
-// shopRoute.get('/orders', getOrders);
+shopRoute.get('/orders', getOrders);
 shopRoute.post('/create-order', postOrders);
 
 // shopRoute.get('/checkout', getCheckout);

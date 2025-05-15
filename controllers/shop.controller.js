@@ -60,9 +60,17 @@ export function postCart(req, res, next) {
     .catch((err) => console.log(err));
 }
 
-// export function getOrders(req, res, next) {
-//   return res.render('shop/orders', { title: 'Your Orders', href: '/orders' });
-// }
+export function getOrders(req, res, next) {
+  OrderModel.find({ 'user.userId': req.user._id })
+    .then((orders) => {
+      return res.render('shop/orders', {
+        href: '/orders',
+        title: 'Your Orders',
+        orders: orders,
+      });
+    })
+    .catch((err) => console.log(err));
+}
 
 export function postOrders(req, res, next) {
   req.user
@@ -81,9 +89,7 @@ export function postOrders(req, res, next) {
       return orders.save();
     })
     .then(() => req.user.clearCart())
-    .then(() =>
-      res.render('shop/orders', { title: 'Your Orders', href: '/orders' })
-    )
+    .then(() => res.redirect('/orders'))
     .catch((err) => console.log(err));
 }
 
