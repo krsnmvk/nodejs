@@ -1,3 +1,4 @@
+import { OrderModel } from '../models/order.model.js';
 import { ProductModel } from '../models/product.model.js';
 
 export function getIndex(req, res, next) {
@@ -62,6 +63,28 @@ export function postCart(req, res, next) {
 // export function getOrders(req, res, next) {
 //   return res.render('shop/orders', { title: 'Your Orders', href: '/orders' });
 // }
+
+export function postOrders(req, res, next) {
+  req.user
+    .populate('cart.items.productId')
+    .then((user) => {
+      const products = user.cart.items.map((i) => ({
+        product: i.productId,
+        quantity: i.quantity,
+      }));
+
+      const orders = new OrderModel({
+        user: { name: req.user.name, userId: req.user },
+        products: products,
+      });
+
+      return orders.save();
+    })
+    .then(() =>
+      res.render('shop/orders', { title: 'Your Orders', href: '/orders' })
+    )
+    .catch((err) => console.log(err));
+}
 
 // export function getCheckout(req, res, next) {
 //   return res.render('shop/checkout', { title: 'Checkout', href: '/checkout' });
