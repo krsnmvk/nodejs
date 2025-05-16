@@ -8,6 +8,7 @@ export function getIndex(req, res, next) {
         title: 'Shop',
         href: '/',
         products: products,
+        isAuthenticated: req.isLoggedIn,
       });
     })
     .catch((err) => console.log(err));
@@ -20,6 +21,7 @@ export function getProducts(req, res, next) {
         title: 'Products',
         href: '/products',
         products: products,
+        isAuthenticated: req.isLoggedIn,
       });
     })
     .catch((err) => console.log(err));
@@ -34,6 +36,7 @@ export function getProductDetail(req, res, next) {
         product: product,
         title: product.title,
         href: '/products',
+        isAuthenticated: req.isLoggedIn,
       });
     })
     .catch((err) => console.log(err));
@@ -47,6 +50,7 @@ export function getCart(req, res, next) {
       href: '/cart',
       title: 'Your Cart',
       products: products,
+      isAuthenticated: req.isLoggedIn,
     });
   });
 }
@@ -67,6 +71,7 @@ export function getOrders(req, res, next) {
         href: '/orders',
         title: 'Your Orders',
         orders: orders,
+        isAuthenticated: req.isLoggedIn,
       });
     })
     .catch((err) => console.log(err));
