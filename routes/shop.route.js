@@ -4,7 +4,7 @@ import {
   // getCheckout,
   getIndex,
   getOrders,
-  getProducts,
+  // getProducts,
   getProductDetail,
   postCart,
   postCartDeleteProduct,
@@ -15,7 +15,7 @@ const shopRoute = Router();
 
 shopRoute.get('/', getIndex);
 
-shopRoute.get('/products', getProducts);
+// shopRoute.get('/products', getProducts);
 
 shopRoute.get('/products/:id', getProductDetail);
 

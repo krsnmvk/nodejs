@@ -5,7 +5,7 @@ export function getAddProduct(req, res, next) {
     title: 'Add Product',
     href: '/admin/add-product',
     edit: false,
-    isAuthenticated: req.isLoggedIn,
+    isAuthenticated: req.session.isLoggedIn,
   });
 }
 
@@ -31,13 +31,11 @@ export function getAdminProducts(req, res, next) {
     // .populate('userId')
     // .select('title price userId')
     .then((products) => {
-      console.log(products);
-
       return res.render('admin/products', {
         title: 'admin Products',
         href: '/admin/products',
         products: products,
-        isAuthenticated: req.isLoggedIn,
+        isAuthenticated: req.session.isLoggedIn,
       });
     })
     .catch((err) => console.log(err));
@@ -59,7 +57,7 @@ export function getEditProduct(req, res, next) {
         href: '/admin/add-product',
         edit: edit,
         product: product,
-        isAuthenticated: req.isLoggedIn,
+        isAuthenticated: req.session.isLoggedIn,
       });
     })
     .catch((err) => console.log(err));

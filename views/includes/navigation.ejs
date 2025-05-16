@@ -6,16 +6,16 @@
       <li class="main-header__item">
         <a class="<%= href === '/' ? 'active' : '' %>" href="/">Shop</a>
       </li>
-      <li class="main-header__item">
+      <!-- <li class="main-header__item">
         <a class="<%= href === '/products' ? 'active' : '' %>" href="/products">Products</a>
-      </li>
+      </li> -->
+      <% if (isAuthenticated) { %>
       <li class="main-header__item">
         <a class="<%= href === '/cart' ? 'active' : '' %>" href="/cart">Cart</a>
       </li>
       <li class="main-header__item">
         <a class="<%= href === '/orders' ? 'active' : '' %>" href="/orders">Orders</a>
       </li>
-      <% if (isAuthenticated) { %>
       <li class="main-header__item">
         <a class="<%= href === '/admin/add-product' ? 'active' : '' %>" href="/admin/add-product">Add Product
         </a>
@@ -30,11 +30,13 @@
       <li class="main-header__item">
         <a class="<%= href === '/login' ? 'active' : '' %>" href="/login">Login</a>
       </li>
+      <% if(isAuthenticated) { %>
       <li class="main-header__item">
         <form action="/logout" method="post">
           <button type="submit">Logout</button>
         </form>
       </li>
+      <% } %>
     </ul>
   </nav>
 </header>
