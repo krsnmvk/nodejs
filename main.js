@@ -1,5 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import session from 'express-session';
 import authRoute from './routes/auth.route.js';
 import adminRoute from './routes/admin.route.js';
 import shopRoute from './routes/shop.route.js';
@@ -13,6 +14,12 @@ const app = express();
 dbConnection();
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(
+  session({
+    secret: 'af8CM95D/zVddrgcKx/nep+b45n6QggEVvzG7x+bwH8=',
+    saveUninitialized: false,
+  })
+);
 app.use(express.static(join(getDirname(import.meta.url), 'src')));
 
 app.set('view engine', 'ejs');
