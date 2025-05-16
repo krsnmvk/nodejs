@@ -17,6 +17,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   session({
     secret: 'af8CM95D/zVddrgcKx/nep+b45n6QggEVvzG7x+bwH8=',
+    resave: false,
     saveUninitialized: false,
   })
 );
