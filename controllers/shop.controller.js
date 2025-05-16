@@ -8,22 +8,24 @@ export function getIndex(req, res, next) {
         title: 'Shop',
         href: '/',
         products: products,
+        isAuthenticated: req.session.isLoggedIn,
       });
     })
     .catch((err) => console.log(err));
 }
 
-export function getProducts(req, res, next) {
-  ProductModel.find()
-    .then((products) => {
-      return res.render('shop/product-list', {
-        title: 'Products',
-        href: '/products',
-        products: products,
-      });
-    })
-    .catch((err) => console.log(err));
-}
+// export function getProducts(req, res, next) {
+//   ProductModel.find()
+//     .then((products) => {
+//       return res.render('shop/product-list', {
+//         title: 'Products',
+//         href: '/products',
+//         products: products,
+//         isAuthenticated: req.session.isLoggedIn,
+//       });
+//     })
+//     .catch((err) => console.log(err));
+// }
 
 export function getProductDetail(req, res, next) {
   const { id } = req.params;
@@ -34,6 +36,7 @@ export function getProductDetail(req, res, next) {
         product: product,
         title: product.title,
         href: '/products',
+        isAuthenticated: req.session.isLoggedIn,
       });
     })
     .catch((err) => console.log(err));
@@ -47,6 +50,7 @@ export function getCart(req, res, next) {
       href: '/cart',
       title: 'Your Cart',
       products: products,
+      isAuthenticated: req.session.isLoggedIn,
     });
   });
 }
@@ -67,6 +71,7 @@ export function getOrders(req, res, next) {
         href: '/orders',
         title: 'Your Orders',
         orders: orders,
+        isAuthenticated: req.session.isLoggedIn,
       });
     })
     .catch((err) => console.log(err));
