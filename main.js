@@ -33,10 +33,13 @@ app.set('view engine', 'ejs');
 app.set('views', join(getDirname(import.meta.url), 'views'));
 
 app.use((req, res, next) => {
-  UserModel.findById('6825b14800b50a7d91206478')
+  if (!req.session.user) {
+    return next();
+  }
+
+  UserModel.findById(req.session.user._id)
     .then((user) => {
       req.user = user;
-
       next();
     })
     .catch((err) => console.log(err));

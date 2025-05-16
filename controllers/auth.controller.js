@@ -1,3 +1,5 @@
+import { UserModel } from '../models/user.model.js';
+
 export function getLogin(req, res, next) {
   console.log(req.session.isLoggedIn);
 
@@ -9,9 +11,14 @@ export function getLogin(req, res, next) {
 }
 
 export function postLogin(req, res, next) {
-  req.session.isLoggedIn = true;
+  UserModel.findById('682746a74d827d1cedfc07e5')
+    .then((user) => {
+      req.session.isLoggedIn = true;
+      req.session.user = user;
 
-  return res.redirect('/');
+      return res.redirect('/');
+    })
+    .catch((err) => console.log(err));
 }
 
 export function postLogout(req, res, next) {
