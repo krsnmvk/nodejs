@@ -8,7 +8,7 @@ export function getIndex(req, res, next) {
         title: 'Shop',
         href: '/',
         products: products,
-        isAuthenticated: req.isLoggedIn,
+        isAuthenticated: req.session.isLoggedIn,
       });
     })
     .catch((err) => console.log(err));
