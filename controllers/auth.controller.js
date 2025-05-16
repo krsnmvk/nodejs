@@ -9,7 +9,16 @@ export function getLogin(req, res, next) {
 }
 
 export function postLogin(req, res, next) {
-  res.setHeader('Set-Cookie', 'isLoggedIn=true');
+  const cookie = [
+    'isLoggedIn=true',
+    'HttpOnly=true',
+    'Max-Age=3600',
+    'SameSite=Strict',
+    'Secure=true',
+    'Path="/"',
+  ].join(';');
+
+  res.setHeader('Set-Cookie', cookie);
   // console.log(res);
   // console.log(req);
 
