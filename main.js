@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import session from 'express-session';
+import MongoStore from 'connect-mongo';
 import authRoute from './routes/auth.route.js';
 import adminRoute from './routes/admin.route.js';
 import shopRoute from './routes/shop.route.js';
@@ -19,6 +20,11 @@ app.use(
     secret: 'af8CM95D/zVddrgcKx/nep+b45n6QggEVvzG7x+bwH8=',
     resave: false,
     saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl:
+        'mongodb+srv://typescript97:typescript97@cluster0.wbe8zlc.mongodb.net/nodejs?retryWrites=true&w=majority&appName=Cluster0',
+      collectionName: 'sessions',
+    }),
   })
 );
 app.use(express.static(join(getDirname(import.meta.url), 'src')));
