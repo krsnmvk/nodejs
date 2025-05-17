@@ -1,8 +1,6 @@
 import { UserModel } from '../models/user.model.js';
 
 export function getLogin(req, res, next) {
-  console.log(req.session.isLoggedIn);
-
   return res.render('auth/login', {
     title: 'Login',
     href: '/login',
@@ -29,5 +27,13 @@ export function postLogout(req, res, next) {
     console.log(err);
 
     return res.redirect('/');
+  });
+}
+
+export function getSignup(req, res, next) {
+  return res.render('auth/signup', {
+    title: 'Signup',
+    href: '/signup',
+    isAuthenticated: false,
   });
 }
