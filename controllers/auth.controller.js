@@ -59,9 +59,18 @@ export function postLogout(req, res, next) {
 }
 
 export function getSignup(req, res, next) {
+  let messages = req.flash('error');
+
+  if (messages.length > 0) {
+    messages = messages[0];
+  } else {
+    messages = null;
+  }
+
   return res.render('auth/signup', {
     title: 'Signup',
     href: '/signup',
+    errorMessage: messages,
   });
 }
 
@@ -70,7 +79,10 @@ export function postSignup(req, res, next) {
 
   UserModel.findOne({ email: email })
     .then((user) => {
-      if (user) return res.redirect('/signup');
+      if (user) {
+        req.flash('error', 'User already exists');
+        return res.redirect('/signup');
+      }
 
       const salt = genSaltSync(10);
       const hashedPassword = hashSync(password, salt);
