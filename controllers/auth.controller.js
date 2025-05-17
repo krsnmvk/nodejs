@@ -1,3 +1,4 @@
+import { genSaltSync, hashSync } from 'bcryptjs';
 import { UserModel } from '../models/user.model.js';
 
 export function getLogin(req, res, next) {
@@ -9,7 +10,7 @@ export function getLogin(req, res, next) {
 }
 
 export function postLogin(req, res, next) {
-  UserModel.findById('68281bffb07b467b40255e4f')
+  UserModel.findById('68281eb6261d2ec089aef2bb')
     .then((user) => {
       req.session.isLoggedIn = true;
       req.session.user = user;
@@ -45,9 +46,12 @@ export function postSignup(req, res, next) {
     .then((user) => {
       if (user) return res.redirect('/signup');
 
+      const salt = genSaltSync(10);
+      const hashedPassword = hashSync(password, salt);
+
       const newUser = new UserModel({
         email: email,
-        password: password,
+        password: hashedPassword,
         cart: { items: [] },
       });
 
