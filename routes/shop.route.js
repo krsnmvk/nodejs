@@ -10,6 +10,7 @@ import {
   postCartDeleteProduct,
   postOrders,
 } from '../controllers/shop.controller.js';
+import { isProtect } from '../middleware/auth.middleware.js';
 
 const shopRoute = Router();
 
@@ -19,13 +20,13 @@ shopRoute.get('/', getIndex);
 
 shopRoute.get('/products/:id', getProductDetail);
 
-shopRoute.get('/cart', getCart);
-shopRoute.post('/cart', postCart);
+shopRoute.get('/cart', isProtect, getCart);
+shopRoute.post('/cart', isProtect, postCart);
 
-shopRoute.post('/cart-delete-item', postCartDeleteProduct);
+shopRoute.post('/cart-delete-item', isProtect, postCartDeleteProduct);
 
-shopRoute.get('/orders', getOrders);
-shopRoute.post('/create-order', postOrders);
+shopRoute.get('/orders', isProtect, getOrders);
+shopRoute.post('/create-order', isProtect, postOrders);
 
 // shopRoute.get('/checkout', getCheckout);
 
