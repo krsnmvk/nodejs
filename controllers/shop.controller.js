@@ -9,6 +9,7 @@ export function getIndex(req, res, next) {
         href: '/',
         products: products,
         isAuthenticated: req.session.isLoggedIn,
+        csrfToken: req.csrfToken(),
       });
     })
     .catch((err) => console.log(err));
