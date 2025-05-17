@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import csrf from 'csurf';
+import flash from 'connect-flash';
 import authRoute from './routes/auth.route.js';
 import adminRoute from './routes/admin.route.js';
 import shopRoute from './routes/shop.route.js';
@@ -29,6 +30,7 @@ app.use(
   })
 );
 app.use(csrf({}));
+app.use(flash());
 app.use(express.static(join(getDirname(import.meta.url), 'src')));
 
 app.set('view engine', 'ejs');

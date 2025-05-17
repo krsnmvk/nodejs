@@ -5,7 +5,7 @@ export function getLogin(req, res, next) {
   return res.render('auth/login', {
     title: 'Login',
     href: '/login',
-    isAuthenticated: false,
+    errorMessage: req.flash('error'),
   });
 }
 
@@ -14,17 +14,26 @@ export function postLogin(req, res, next) {
 
   UserModel.findOne({ email: email })
     .then((user) => {
-      if (!user) return res.redirect('/login');
+      if (!user) {
+        req.flash('error', 'Invalid email');
+        return res.redirect('/login');
+      }
 
       const isValidPassword = compareSync(password, user.password);
 
-      if (!isValidPassword) return res.redirect('/login');
+      if (!isValidPassword) {
+        req.flash('error', 'Invalid password');
+        return res.redirect('/login');
+      }
 
       req.session.isLoggedIn = true;
       req.session.user = user;
 
       req.session.save((err) => {
-        console.log(err);
+        if (err) {
+          console.log(err);
+        }
+
         return res.redirect('/');
       });
     })
@@ -33,7 +42,9 @@ export function postLogin(req, res, next) {
 
 export function postLogout(req, res, next) {
   req.session.destroy((err) => {
-    console.log(err);
+    if (err) {
+      console.log(err);
+    }
 
     return res.redirect('/');
   });
@@ -43,7 +54,6 @@ export function getSignup(req, res, next) {
   return res.render('auth/signup', {
     title: 'Signup',
     href: '/signup',
-    isAuthenticated: false,
   });
 }
 
