@@ -88,7 +88,7 @@ export function postOrders(req, res, next) {
       }));
 
       const orders = new OrderModel({
-        user: { name: req.user.name, userId: req.user },
+        user: { email: req.user.email, userId: req.user },
         products: products,
       });
 
