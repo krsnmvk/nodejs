@@ -1,4 +1,4 @@
-import { genSaltSync, hashSync } from 'bcryptjs';
+import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
 import { UserModel } from '../models/user.model.js';
 
 export function getLogin(req, res, next) {
@@ -10,8 +10,16 @@ export function getLogin(req, res, next) {
 }
 
 export function postLogin(req, res, next) {
-  UserModel.findById('68281eb6261d2ec089aef2bb')
+  const { email, password } = req.body;
+
+  UserModel.findOne({ email: email })
     .then((user) => {
+      if (!user) return res.redirect('/login');
+
+      const isValidPassword = compareSync(password, user.password);
+
+      if (!isValidPassword) return res.redirect('/login');
+
       req.session.isLoggedIn = true;
       req.session.user = user;
 
