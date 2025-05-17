@@ -2,10 +2,18 @@ import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
 import { UserModel } from '../models/user.model.js';
 
 export function getLogin(req, res, next) {
+  let messages = req.flash('error');
+
+  if (messages.length > 0) {
+    messages = messages[0];
+  } else {
+    messages = null;
+  }
+
   return res.render('auth/login', {
     title: 'Login',
     href: '/login',
-    errorMessage: req.flash('error'),
+    errorMessage: messages,
   });
 }
 
