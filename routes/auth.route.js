@@ -16,7 +16,16 @@ import { UserModel } from '../models/user.model.js';
 const authRoute = Router();
 
 authRoute.get('/login', getLogin);
-authRoute.post('/login', postLogin);
+authRoute.post(
+  '/login',
+  [
+    body('email').isEmail().withMessage('Please enter a valid email address.'),
+    body('password', 'Password has to be valid.')
+      .isLength({ min: 5 })
+      .isAlphanumeric(),
+  ],
+  postLogin
+);
 
 authRoute.get('/signup', getSignup);
 authRoute.post(

@@ -16,6 +16,11 @@ export function getLogin(req, res, next) {
     title: 'Login',
     href: '/login',
     errorMessage: messages,
+    oldInput: {
+      email: '',
+      password: '',
+    },
+    validationErrors: [],
   });
 }
 
@@ -29,21 +34,42 @@ export function postLogin(req, res, next) {
       title: 'Login',
       href: '/login',
       errorMessage: errors.array()[0].msg,
+      oldInput: {
+        email: email,
+        password: password,
+      },
+      validationErrors: errors.array(),
     });
   }
 
   UserModel.findOne({ email: email })
     .then((user) => {
       if (!user) {
-        req.flash('error', 'Invalid email');
-        return res.redirect('/login');
+        return res.status(422).render('auth/login', {
+          title: 'Login',
+          href: '/login',
+          errorMessage: errors.array()[0].msg,
+          oldInput: {
+            email: email,
+            password: password,
+          },
+          validationErrors: errors.array(),
+        });
       }
 
       const isValidPassword = compareSync(password, user.password);
 
       if (!isValidPassword) {
-        req.flash('error', 'Invalid password');
-        return res.redirect('/login');
+        return res.status(422).render('auth/login', {
+          title: 'Login',
+          href: '/login',
+          errorMessage: errors.array()[0].msg,
+          oldInput: {
+            email: email,
+            password: password,
+          },
+          validationErrors: errors.array(),
+        });
       }
 
       req.session.isLoggedIn = true;
