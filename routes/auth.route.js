@@ -26,6 +26,13 @@ authRoute.post(
       .isLength({ min: 6 })
       .withMessage('Password must be at least 6 characters long')
       .isAlphanumeric(),
+    body('confirmPasswrd').custom((value, { req }) => {
+      if (value !== req.body.password) {
+        throw new Error('Password have to match');
+      }
+
+      return true;
+    }),
   ],
   postSignup
 );
