@@ -1,6 +1,7 @@
 import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
 import { UserModel } from '../models/user.model.js';
 import { randomBytes } from 'node:crypto';
+import { validationResult } from 'express-validator';
 
 export function getLogin(req, res, next) {
   let messages = req.flash('error');
@@ -15,24 +16,60 @@ export function getLogin(req, res, next) {
     title: 'Login',
     href: '/login',
     errorMessage: messages,
+    oldInput: {
+      email: '',
+      password: '',
+    },
+    validationErrors: [],
   });
 }
 
 export function postLogin(req, res, next) {
   const { email, password } = req.body;
 
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(422).render('auth/login', {
+      title: 'Login',
+      href: '/login',
+      errorMessage: errors.array()[0].msg,
+      oldInput: {
+        email: email,
+        password: password,
+      },
+      validationErrors: errors.array(),
+    });
+  }
+
   UserModel.findOne({ email: email })
     .then((user) => {
       if (!user) {
-        req.flash('error', 'Invalid email');
-        return res.redirect('/login');
+        return res.status(422).render('auth/login', {
+          title: 'Login',
+          href: '/login',
+          errorMessage: errors.array()[0].msg,
+          oldInput: {
+            email: email,
+            password: password,
+          },
+          validationErrors: errors.array(),
+        });
       }
 
       const isValidPassword = compareSync(password, user.password);
 
       if (!isValidPassword) {
-        req.flash('error', 'Invalid password');
-        return res.redirect('/login');
+        return res.status(422).render('auth/login', {
+          title: 'Login',
+          href: '/login',
+          errorMessage: errors.array()[0].msg,
+          oldInput: {
+            email: email,
+            password: password,
+          },
+          validationErrors: errors.array(),
+        });
       }
 
       req.session.isLoggedIn = true;
@@ -72,30 +109,46 @@ export function getSignup(req, res, next) {
     title: 'Signup',
     href: '/signup',
     errorMessage: messages,
+    oldInput: {
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
+    validationErrors: [],
   });
 }
 
 export function postSignup(req, res, next) {
   const { email, password, confirmPassword } = req.body;
+  const errors = validationResult(req);
 
-  UserModel.findOne({ email: email })
-    .then((user) => {
-      if (user) {
-        req.flash('error', 'User already exists');
-        return res.redirect('/signup');
-      }
+  if (!errors.isEmpty()) {
+    console.log(errors.array());
 
-      const salt = genSaltSync(10);
-      const hashedPassword = hashSync(password, salt);
-
-      const newUser = new UserModel({
+    return res.status(422).render('auth/signup', {
+      title: 'Signup',
+      href: '/signup',
+      errorMessage: errors.array()[0].msg,
+      oldInput: {
         email: email,
-        password: hashedPassword,
-        cart: { items: [] },
-      });
+        password: password,
+        confirmPassword: confirmPassword,
+      },
+      validationErrors: errors.array(),
+    });
+  }
 
-      return newUser.save();
-    })
+  const salt = genSaltSync(10);
+  const hashedPassword = hashSync(password, salt);
+
+  const newUser = new UserModel({
+    email: email,
+    password: hashedPassword,
+    cart: { items: [] },
+  });
+
+  return newUser
+    .save()
     .then(() => res.redirect('/login'))
     .catch((err) => console.log(err));
 }

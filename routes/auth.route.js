@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { check, body } from 'express-validator';
 import {
   getLogin,
   getNewPassword,
@@ -10,14 +11,56 @@ import {
   postResetPassword,
   postSignup,
 } from '../controllers/auth.controller.js';
+import { UserModel } from '../models/user.model.js';
 
 const authRoute = Router();
 
 authRoute.get('/login', getLogin);
-authRoute.post('/login', postLogin);
+authRoute.post(
+  '/login',
+  [
+    body('email')
+      .isEmail()
+      .withMessage('Please enter a valid email address.')
+      .normalizeEmail(),
+    body('password', 'Password has to be valid.')
+      .isLength({ min: 5 })
+      .isAlphanumeric()
+      .trim(),
+  ],
+  postLogin
+);
 
 authRoute.get('/signup', getSignup);
-authRoute.post('/signup', postSignup);
+authRoute.post(
+  '/signup',
+  [
+    check('email')
+      .isEmail()
+      .withMessage('Please enter a valid email')
+      .custom(async (value, { req }) => {
+        return UserModel.findOne({ email: value }).then((user) => {
+          if (user) {
+            return Promise.reject('User already exists');
+          }
+        });
+      })
+      .normalizeEmail(),
+    body('password')
+      .isLength({ min: 6 })
+      .withMessage('Password must be at least 6 characters long')
+      .isAlphanumeric()
+      .trim(),
+    body('confirmPasswrd').custom((value, { req }) => {
+      if (value !== req.body.password) {
+        throw new Error('Password have to match');
+      }
+
+      return true;
+    }),
+  ],
+  postSignup
+);
 
 authRoute.post('/logout', postLogout);
 
