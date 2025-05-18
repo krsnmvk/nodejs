@@ -8,6 +8,7 @@ export function getAddProduct(req, res, next) {
     edit: false,
     hasError: false,
     errorMessage: null,
+    validationErrors: [],
   });
 }
 
@@ -28,6 +29,7 @@ export function postAddProduct(req, res, next) {
         description: description,
       },
       errorMessage: errors.array()[0].msg,
+      validationErrors: errors.array9,
     });
   }
 
@@ -71,12 +73,13 @@ export function getEditProduct(req, res, next) {
       if (!product) return res.redirect('/');
 
       return res.render('admin/edit-product', {
-        title: 'edit Product',
+        title: 'Edit Product',
         href: '/admin/add-product',
         edit: edit,
         hasError: false,
         product: product,
         errorMessage: null,
+        validationErrors: [],
       });
     })
     .catch((err) => console.log(err));
@@ -84,6 +87,24 @@ export function getEditProduct(req, res, next) {
 
 export function postEditProduct(req, res, next) {
   const { id, title, image, price, description } = req.body;
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(422).render('admin/edit-product', {
+      title: 'Edit Product',
+      href: '/admin/add-product',
+      edit: true,
+      hasError: true,
+      product: {
+        title: title,
+        image: image,
+        price: price,
+        description: description,
+      },
+      errorMessage: errors.array()[0].msg,
+      validationErrors: errors.array(),
+    });
+  }
 
   ProductModel.findById(id)
     .then((product) => {

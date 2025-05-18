@@ -16,8 +16,8 @@ adminRoute.get('/add-product', isProtect, getAddProduct);
 adminRoute.post(
   '/add-product',
   [
-    body('title').isAlphanumeric().isLength({ min: 3 }).trim(),
-    body('image').isURL(),
+    body('title').isString().isLength({ min: 3 }).trim(),
+    body('image').isString(),
     body('price').isFloat(),
     body('description').isLength({ min: 3, max: 1000 }).trim(),
   ],
@@ -31,8 +31,8 @@ adminRoute.get('/edit-product/:id', isProtect, getEditProduct);
 adminRoute.post(
   '/edit-product',
   [
-    body('title').isAlphanumeric().isLength({ min: 3 }).trim(),
-    body('image').isURL(),
+    body('title').isString().isLength({ min: 3 }).trim(),
+    body('image').isString(),
     body('price').isFloat(),
     body('description').isLength({ min: 3, max: 1000 }).trim(),
   ],
