@@ -1,15 +1,35 @@
 import { ProductModel } from '../models/product.model.js';
+import { validationResult } from 'express-validator';
 
 export function getAddProduct(req, res, next) {
   return res.render('admin/edit-product', {
     title: 'Add Product',
     href: '/admin/add-product',
     edit: false,
+    hasError: false,
+    errorMessage: null,
   });
 }
 
 export function postAddProduct(req, res, next) {
   const { title, image, price, description } = req.body;
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(422).render('admin/edit-product', {
+      title: 'Add Product',
+      href: '/admin/add-product',
+      edit: false,
+      hasError: true,
+      product: {
+        title: title,
+        image: image,
+        price: price,
+        description: description,
+      },
+      errorMessage: errors.array()[0].msg,
+    });
+  }
 
   const products = new ProductModel({
     title,
@@ -54,7 +74,9 @@ export function getEditProduct(req, res, next) {
         title: 'edit Product',
         href: '/admin/add-product',
         edit: edit,
+        hasError: false,
         product: product,
+        errorMessage: null,
       });
     })
     .catch((err) => console.log(err));
