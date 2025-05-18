@@ -98,3 +98,19 @@ export function postSignup(req, res, next) {
     .then(() => res.redirect('/login'))
     .catch((err) => console.log(err));
 }
+
+export function getResetPassword(req, res, next) {
+  let messages = req.flash('error');
+
+  if (messages.length > 0) {
+    messages = messages[0];
+  } else {
+    messages = null;
+  }
+
+  return res.render('auth/reset-password', {
+    title: 'Reset Password',
+    href: '/reset',
+    errorMessage: messages,
+  });
+}
