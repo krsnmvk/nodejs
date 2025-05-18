@@ -5,6 +5,7 @@ import {
   getSignup,
   postLogin,
   postLogout,
+  postResetPassword,
   postSignup,
 } from '../controllers/auth.controller.js';
 
@@ -19,5 +20,6 @@ authRoute.post('/signup', postSignup);
 authRoute.post('/logout', postLogout);
 
 authRoute.get('/reset', getResetPassword);
+authRoute.post('/reset', postResetPassword);
 
 export default authRoute;

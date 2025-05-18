@@ -1,5 +1,6 @@
 import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
 import { UserModel } from '../models/user.model.js';
+import { randomBytes } from 'node:crypto';
 
 export function getLogin(req, res, next) {
   let messages = req.flash('error');
@@ -112,5 +113,28 @@ export function getResetPassword(req, res, next) {
     title: 'Reset Password',
     href: '/reset',
     errorMessage: messages,
+  });
+}
+
+export function postResetPassword(req, res, next) {
+  randomBytes(32, (err, buffer) => {
+    if (err) return res.redirect('/reset');
+
+    const token = buffer.toString('hex');
+
+    UserModel.findOne({ email: req.body.email })
+      .then((user) => {
+        if (!user) {
+          req.flash('error', 'No account with that email found');
+          return res.redirect('/reset');
+        }
+
+        user.resetToken = token;
+        user.resetTokenExpiration = new Date(Date.now() + 3600000);
+
+        return user.save();
+      })
+      .then(() => res.redirect(`/reset/${token}`))
+      .catch((err) => console.log(err));
   });
 }
