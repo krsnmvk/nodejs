@@ -1,6 +1,7 @@
 import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
 import { UserModel } from '../models/user.model.js';
 import { randomBytes } from 'node:crypto';
+import { validationResult } from 'express-validator';
 
 export function getLogin(req, res, next) {
   let messages = req.flash('error');
@@ -77,6 +78,15 @@ export function getSignup(req, res, next) {
 
 export function postSignup(req, res, next) {
   const { email, password, confirmPassword } = req.body;
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(422).render('auth/signup', {
+      title: 'Signup',
+      href: '/signup',
+      errorMessage: errors.array()[0].msg,
+    });
+  }
 
   UserModel.findOne({ email: email })
     .then((user) => {
