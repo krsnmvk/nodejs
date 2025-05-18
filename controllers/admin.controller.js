@@ -65,21 +65,24 @@ export function postEditProduct(req, res, next) {
 
   ProductModel.findById(id)
     .then((product) => {
+      if (product.userId.toString() !== req.user._id.toString()) {
+        return res.redirect('/');
+      }
+
       product.title = title;
       product.image = image;
       product.price = price;
       product.description = description;
 
-      return product.save();
+      return product.save().then(() => res.redirect('/admin/products'));
     })
-    .then(() => res.redirect('/admin/products'))
     .catch((err) => console.log(err));
 }
 
 export function postDeleteProduct(req, res, next) {
   const { id } = req.body;
 
-  ProductModel.findByIdAndDelete(id)
+  ProductModel.deleteOne({ _id: id, userId: req.user._id })
     .then(() => res.redirect('/admin/products'))
     .catch((err) => console.log(err));
 }

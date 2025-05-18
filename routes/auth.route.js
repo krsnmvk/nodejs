@@ -1,9 +1,13 @@
 import { Router } from 'express';
 import {
   getLogin,
+  getNewPassword,
+  getResetPassword,
   getSignup,
   postLogin,
   postLogout,
+  postNewPassword,
+  postResetPassword,
   postSignup,
 } from '../controllers/auth.controller.js';
 
@@ -16,5 +20,11 @@ authRoute.get('/signup', getSignup);
 authRoute.post('/signup', postSignup);
 
 authRoute.post('/logout', postLogout);
+
+authRoute.get('/reset', getResetPassword);
+authRoute.post('/reset', postResetPassword);
+
+authRoute.get('/reset/:token', getNewPassword);
+authRoute.post('/new', postNewPassword);
 
 export default authRoute;
