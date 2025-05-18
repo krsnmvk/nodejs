@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import {
   getLogin,
+  getNewPassword,
   getResetPassword,
   getSignup,
   postLogin,
@@ -21,5 +22,8 @@ authRoute.post('/logout', postLogout);
 
 authRoute.get('/reset', getResetPassword);
 authRoute.post('/reset', postResetPassword);
+
+authRoute.get('/reset/:token', getNewPassword);
+// authRoute.post('/reset', postResetPassword);
 
 export default authRoute;
