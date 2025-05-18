@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { check } from 'express-validator';
+import { check, body } from 'express-validator';
 import {
   getLogin,
   getNewPassword,
@@ -20,7 +20,13 @@ authRoute.post('/login', postLogin);
 authRoute.get('/signup', getSignup);
 authRoute.post(
   '/signup',
-  check('email').isEmail().withMessage('Please enter a valid email'),
+  [
+    check('email').isEmail().withMessage('Please enter a valid email'),
+    body('password')
+      .isLength({ min: 6 })
+      .withMessage('Password must be at least 6 characters long')
+      .isAlphanumeric(),
+  ],
   postSignup
 );
 
