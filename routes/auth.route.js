@@ -11,6 +11,7 @@ import {
   postResetPassword,
   postSignup,
 } from '../controllers/auth.controller.js';
+import { UserModel } from '../models/user.model.js';
 
 const authRoute = Router();
 
@@ -21,7 +22,16 @@ authRoute.get('/signup', getSignup);
 authRoute.post(
   '/signup',
   [
-    check('email').isEmail().withMessage('Please enter a valid email'),
+    check('email')
+      .isEmail()
+      .withMessage('Please enter a valid email')
+      .custom(async (value, { req }) => {
+        return UserModel.findOne({ email: value }).then((user) => {
+          if (user) {
+            return Promise.reject('User already exists');
+          }
+        });
+      }),
     body('password')
       .isLength({ min: 6 })
       .withMessage('Password must be at least 6 characters long')

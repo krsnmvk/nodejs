@@ -88,24 +88,17 @@ export function postSignup(req, res, next) {
     });
   }
 
-  UserModel.findOne({ email: email })
-    .then((user) => {
-      if (user) {
-        req.flash('error', 'User already exists');
-        return res.redirect('/signup');
-      }
+  const salt = genSaltSync(10);
+  const hashedPassword = hashSync(password, salt);
 
-      const salt = genSaltSync(10);
-      const hashedPassword = hashSync(password, salt);
+  const newUser = new UserModel({
+    email: email,
+    password: hashedPassword,
+    cart: { items: [] },
+  });
 
-      const newUser = new UserModel({
-        email: email,
-        password: hashedPassword,
-        cart: { items: [] },
-      });
-
-      return newUser.save();
-    })
+  return newUser
+    .save()
     .then(() => res.redirect('/login'))
     .catch((err) => console.log(err));
 }
