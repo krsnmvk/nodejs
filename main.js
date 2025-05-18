@@ -67,6 +67,9 @@ app.use(shopRoute);
 app.get('/500', get500);
 
 app.use(get404);
+app.use((err, req, res, next) => {
+  return res.redirect('/500');
+});
 
 app.listen(8080, () => {
   console.log('Server running on: http://localhost:8080');

@@ -44,7 +44,13 @@ export function postAddProduct(req, res, next) {
   products
     .save()
     .then(() => res.redirect('/'))
-    .catch(() => res.redirect('/500'));
+    .catch((err) => {
+      const error = new Error(err);
+
+      error.statusCode = 500;
+
+      return next(error);
+    });
 }
 
 export function getAdminProducts(req, res, next) {
