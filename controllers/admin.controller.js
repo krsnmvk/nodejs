@@ -44,7 +44,7 @@ export function postAddProduct(req, res, next) {
   products
     .save()
     .then(() => res.redirect('/'))
-    .catch((err) => console.log(err));
+    .catch(() => res.redirect('/500'));
 }
 
 export function getAdminProducts(req, res, next) {

@@ -11,6 +11,7 @@ import { join } from 'node:path';
 import { getDirname } from './utils/path.js';
 import { dbConnection } from './db/db.js';
 import { UserModel } from './models/user.model.js';
+import { get404, get505 } from './controllers/error.controller.js';
 
 const app = express();
 
@@ -63,9 +64,9 @@ app.use(authRoute);
 app.use('/admin', adminRoute);
 app.use(shopRoute);
 
-app.use((req, res, next) => {
-  res.status(404).render('404', { title: 'Page Not Found', href: '/404' });
-});
+app.get('/500', get500);
+
+app.use(get404);
 
 app.listen(8080, () => {
   console.log('Server running on: http://localhost:8080');
