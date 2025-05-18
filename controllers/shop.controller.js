@@ -8,7 +8,6 @@ export function getIndex(req, res, next) {
         title: 'Shop',
         href: '/',
         products: products,
-        isAuthenticated: req.session.isLoggedIn,
       });
     })
     .catch((err) => console.log(err));
@@ -36,7 +35,6 @@ export function getProductDetail(req, res, next) {
         product: product,
         title: product.title,
         href: '/products',
-        isAuthenticated: req.session.isLoggedIn,
       });
     })
     .catch((err) => console.log(err));
@@ -50,7 +48,6 @@ export function getCart(req, res, next) {
       href: '/cart',
       title: 'Your Cart',
       products: products,
-      isAuthenticated: req.session.isLoggedIn,
     });
   });
 }
@@ -71,7 +68,6 @@ export function getOrders(req, res, next) {
         href: '/orders',
         title: 'Your Orders',
         orders: orders,
-        isAuthenticated: req.session.isLoggedIn,
       });
     })
     .catch((err) => console.log(err));
@@ -87,7 +83,7 @@ export function postOrders(req, res, next) {
       }));
 
       const orders = new OrderModel({
-        user: { name: req.user.name, userId: req.user },
+        user: { email: req.user.email, userId: req.user },
         products: products,
       });
 
