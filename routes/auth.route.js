@@ -19,10 +19,14 @@ authRoute.get('/login', getLogin);
 authRoute.post(
   '/login',
   [
-    body('email').isEmail().withMessage('Please enter a valid email address.'),
+    body('email')
+      .isEmail()
+      .withMessage('Please enter a valid email address.')
+      .normalizeEmail(),
     body('password', 'Password has to be valid.')
       .isLength({ min: 5 })
-      .isAlphanumeric(),
+      .isAlphanumeric()
+      .trim(),
   ],
   postLogin
 );
@@ -40,11 +44,13 @@ authRoute.post(
             return Promise.reject('User already exists');
           }
         });
-      }),
+      })
+      .normalizeEmail(),
     body('password')
       .isLength({ min: 6 })
       .withMessage('Password must be at least 6 characters long')
-      .isAlphanumeric(),
+      .isAlphanumeric()
+      .trim(),
     body('confirmPasswrd').custom((value, { req }) => {
       if (value !== req.body.password) {
         throw new Error('Password have to match');
