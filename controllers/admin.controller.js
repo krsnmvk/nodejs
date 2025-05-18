@@ -64,7 +64,13 @@ export function getAdminProducts(req, res, next) {
         products: products,
       });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(err);
+
+      error.statusCode = 500;
+
+      return next(error);
+    });
 }
 
 export function getEditProduct(req, res, next) {
@@ -88,7 +94,13 @@ export function getEditProduct(req, res, next) {
         validationErrors: [],
       });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(err);
+
+      error.statusCode = 500;
+
+      return next(error);
+    });
 }
 
 export function postEditProduct(req, res, next) {
@@ -125,7 +137,13 @@ export function postEditProduct(req, res, next) {
 
       return product.save().then(() => res.redirect('/admin/products'));
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(err);
+
+      error.statusCode = 500;
+
+      return next(error);
+    });
 }
 
 export function postDeleteProduct(req, res, next) {
@@ -133,5 +151,11 @@ export function postDeleteProduct(req, res, next) {
 
   ProductModel.deleteOne({ _id: id, userId: req.user._id })
     .then(() => res.redirect('/admin/products'))
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(err);
+
+      error.statusCode = 500;
+
+      return next(error);
+    });
 }
