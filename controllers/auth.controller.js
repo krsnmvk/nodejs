@@ -162,7 +162,30 @@ export function getNewPassword(req, res, next) {
         href: '/new',
         errorMessage: messages,
         id: user._id.toString(),
+        passwordToken: token,
       });
     })
+    .catch((err) => console.log(err));
+}
+
+export function postNewPassword(req, res, next) {
+  const { id, password, passwordToken } = req.body;
+
+  UserModel.findOne({
+    resetToken: passwordToken,
+    resetTokenExpiration: { $gt: Date.now() },
+    _id: id,
+  })
+    .then((user) => {
+      const salt = genSaltSync(10);
+      const hashedPassword = hashSync(password, salt);
+
+      user.password = hashedPassword;
+      user.resetToken = undefined;
+      user.resetTokenExpiration = undefined;
+
+      return user.save();
+    })
+    .then(() => res.redirect('/login'))
     .catch((err) => console.log(err));
 }
