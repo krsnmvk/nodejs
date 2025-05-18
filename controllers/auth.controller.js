@@ -22,6 +22,16 @@ export function getLogin(req, res, next) {
 export function postLogin(req, res, next) {
   const { email, password } = req.body;
 
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(422).render('auth/login', {
+      title: 'Login',
+      href: '/login',
+      errorMessage: errors.array()[0].msg,
+    });
+  }
+
   UserModel.findOne({ email: email })
     .then((user) => {
       if (!user) {
@@ -73,6 +83,11 @@ export function getSignup(req, res, next) {
     title: 'Signup',
     href: '/signup',
     errorMessage: messages,
+    oldInput: {
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
   });
 }
 
@@ -85,6 +100,11 @@ export function postSignup(req, res, next) {
       title: 'Signup',
       href: '/signup',
       errorMessage: errors.array()[0].msg,
+      oldInput: {
+        email: email,
+        password: password,
+        confirmPassword: confirmPassword,
+      },
     });
   }
 
