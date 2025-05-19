@@ -11,7 +11,7 @@ import { join } from 'node:path';
 import { getDirname } from './utils/path.js';
 import { dbConnection } from './db/db.js';
 import { UserModel } from './models/user.model.js';
-import { get404, get505 } from './controllers/error.controller.js';
+import { get404, get500 } from './controllers/error.controller.js';
 
 const app = express();
 
