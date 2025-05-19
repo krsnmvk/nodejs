@@ -10,7 +10,13 @@ export function getIndex(req, res, next) {
         products: products,
       });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(err);
+
+      error.statusCode = 500;
+
+      return next(error);
+    });
 }
 
 // export function getProducts(req, res, next) {
@@ -37,7 +43,13 @@ export function getProductDetail(req, res, next) {
         href: '/products',
       });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(err);
+
+      error.statusCode = 500;
+
+      return next(error);
+    });
 }
 
 export function getCart(req, res, next) {
@@ -58,7 +70,13 @@ export function postCart(req, res, next) {
   ProductModel.findById(id)
     .then((product) => req.user.addToCart(product))
     .then(() => res.redirect('/cart'))
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(err);
+
+      error.statusCode = 500;
+
+      return next(error);
+    });
 }
 
 export function getOrders(req, res, next) {
@@ -70,7 +88,13 @@ export function getOrders(req, res, next) {
         orders: orders,
       });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(err);
+
+      error.statusCode = 500;
+
+      return next(error);
+    });
 }
 
 export function postOrders(req, res, next) {
@@ -91,7 +115,13 @@ export function postOrders(req, res, next) {
     })
     .then(() => req.user.clearCart())
     .then(() => res.redirect('/orders'))
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(err);
+
+      error.statusCode = 500;
+
+      return next(error);
+    });
 }
 
 // export function getCheckout(req, res, next) {
@@ -104,5 +134,11 @@ export function postCartDeleteProduct(req, res, next) {
   req.user
     .deleteFromCart(id)
     .then(() => res.redirect('/cart'))
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(err);
+
+      error.statusCode = 500;
+
+      return next(error);
+    });
 }

@@ -11,6 +11,7 @@ import { join } from 'node:path';
 import { getDirname } from './utils/path.js';
 import { dbConnection } from './db/db.js';
 import { UserModel } from './models/user.model.js';
+import { get404, get500 } from './controllers/error.controller.js';
 
 const app = express();
 
@@ -43,10 +44,14 @@ app.use((req, res, next) => {
 
   UserModel.findById(req.session.user._id)
     .then((user) => {
+      if (!user) return next();
+
       req.user = user;
       next();
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      next(new Error(err));
+    });
 });
 app.use((req, res, next) => {
   res.locals.isAuthenticated = req.session.isLoggedIn;
@@ -59,8 +64,11 @@ app.use(authRoute);
 app.use('/admin', adminRoute);
 app.use(shopRoute);
 
-app.use((req, res, next) => {
-  res.status(404).render('404', { title: 'Page Not Found', href: '/404' });
+app.get('/500', get500);
+
+app.use(get404);
+app.use((err, req, res, next) => {
+  return res.redirect('/500');
 });
 
 app.listen(8080, () => {

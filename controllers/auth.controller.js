@@ -83,7 +83,13 @@ export function postLogin(req, res, next) {
         return res.redirect('/');
       });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(err);
+
+      error.statusCode = 500;
+
+      return next(error);
+    });
 }
 
 export function postLogout(req, res, next) {
@@ -188,7 +194,13 @@ export function postResetPassword(req, res, next) {
         return user.save();
       })
       .then(() => res.redirect(`/reset/${token}`))
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        const error = new Error(err);
+
+        error.statusCode = 500;
+
+        return next(error);
+      });
   });
 }
 
@@ -218,7 +230,13 @@ export function getNewPassword(req, res, next) {
         passwordToken: token,
       });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(err);
+
+      error.statusCode = 500;
+
+      return next(error);
+    });
 }
 
 export function postNewPassword(req, res, next) {
@@ -240,5 +258,11 @@ export function postNewPassword(req, res, next) {
       return user.save();
     })
     .then(() => res.redirect('/login'))
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(err);
+
+      error.statusCode = 500;
+
+      return next(error);
+    });
 }
